@@ -1,0 +1,52 @@
+#!/usr/bin/env node
+
+"use strict";
+
+var fs = require('fs');
+var path = require('path');
+var args = require('args');
+var Fuller = require('../lib');
+
+var options = args.Options.parse([
+    {
+        name: 'plan',
+        shortName: 'p',
+        help: 'Plan file name',
+        defaultValue: 'plan.json'
+    },
+    {
+        name: 'dev',
+        shortName: 'd',
+        type: 'bool',
+        help: 'Developer version (no minifing and compressions)',
+        defaultValue: false
+    },
+    {
+        name: 'verbose',
+        shortName: 'v',
+        type: 'bool',
+        help: 'Verbose mode',
+        defaultValue: false
+    }
+]);
+
+var parser = new args.Parser(process.argv, 2);
+
+try {
+	parser.parse(options);
+	var opt = parser.prepareResult(options);
+} catch (err) {
+	console.log(options.getHelp());
+	process.exit(1);
+}
+
+var planFile = path.join(process.cwd(), opt.plan);
+if (!fs.existsSync(planFile)) {
+	console.log(options.getHelp());
+	process.exit(1);
+}
+
+opt.plan = planFile;
+
+var fuller = new Fuller(opt);
+fuller.build();
