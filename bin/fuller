@@ -15,6 +15,13 @@ var options = args.Options.parse([
         defaultValue: 'plan.json'
     },
     {
+        name: 'watch',
+        shortName: 'w',
+        type: 'bool',
+        help: 'Watch source directory for changes',
+        defaultValue: false
+    },
+    {
         name: 'js',
         shortName: 'j',
         type: 'bool',
@@ -39,6 +46,7 @@ var options = args.Options.parse([
         shortName: 'v',
         type: 'bool',
         help: 'Verbose mode',
+        defaultValue: false
     }
 ]);
 
@@ -61,4 +69,10 @@ if(opt.js) { opt.css = false; }
 if(opt.css) { opt.js = false; }
 
 var fuller = new Fuller(opt);
-fuller.build();
+
+if(opt.watch) {
+    fuller.watch();
+} else {
+    fuller.build();
+}
+
