@@ -1,7 +1,7 @@
 # Fuller #
 ## Build utility for browser's stuff written on nodejs ##
 
-** Richard Buckminster "Bucky" Fuller was an American systems theorist, architect, engineer, author, designer, inventor, and futurist **
+_Richard Buckminster "Bucky" Fuller was an American systems theorist, architect, engineer, author, designer, inventor, and futurist_
 
 ## Install ##
     npm install fuller -g
@@ -18,7 +18,7 @@
 ```
 ## Plan ##
 So Fuller needs a plan, and it is simple json:
-```js
+```json
 {
     "global": {
         "src": "./src",
@@ -35,15 +35,15 @@ So Fuller needs a plan, and it is simple json:
         "out/script.js": {
             "lib": "jQuery",
             "src": [
-                "src1.js,
-                "src2.js
-            "]
+                "src1.js",
+                "src2.js"
+            ]
         },
 
         "out/script.js": [
-                "src1.js,
-                "src2.js
-            "]
+                "src1.js",
+                "src2.js"
+            ]
         }
     },
 
