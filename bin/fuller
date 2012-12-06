@@ -15,27 +15,37 @@ var options = args.Options.parse([
         defaultValue: 'plan.json'
     },
     {
+        name: 'js',
+        shortName: 'j',
+        type: 'bool',
+        help: 'Compile js only',
+        defaultValue: undefined
+    },
+    {
+        name: 'css',
+        shortName: 'c',
+        type: 'bool',
+        help: 'Compile css only',
+        defaultValue: undefined
+    },
+    {
         name: 'dev',
         shortName: 'd',
         type: 'bool',
         help: 'Developer version (no minifing and compressions)',
-        defaultValue: false
     },
     {
         name: 'verbose',
         shortName: 'v',
         type: 'bool',
         help: 'Verbose mode',
-        defaultValue: false
     }
 ]);
 
-var parser = new args.Parser(process.argv, 2);
-
 try {
-	parser.parse(options);
-	var opt = parser.prepareResult(options);
+	var opt = args.parse(options);
 } catch (err) {
+    console.log(err);
 	console.log(options.getHelp());
 	process.exit(1);
 }
@@ -45,8 +55,10 @@ if (!fs.existsSync(planFile)) {
 	console.log(options.getHelp());
 	process.exit(1);
 }
-
 opt.plan = planFile;
+
+if(opt.js) { opt.css = false; }
+if(opt.css) { opt.js = false; }
 
 var fuller = new Fuller(opt);
 fuller.build();
