@@ -17,7 +17,7 @@ _Richard Buckminster "Bucky" Fuller was an American systems theorist, architect,
 --verbose, -v   Verbose mode
 ```
 ## Plan ##
-So Fuller needs a plan, and it is simple json:
+So Fuller needs a plan, and here it is, simple json:
 ```json
 {
     "global": {
