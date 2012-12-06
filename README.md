@@ -41,8 +41,8 @@ So Fuller needs a plan, and it is simple json:
         },
 
         "out/script.js": [
-                "src1.js",
-                "src2.js"
+            "src1.js",
+            "src2.js"
         ]
     },
 
