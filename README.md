@@ -43,8 +43,7 @@ So Fuller needs a plan, and it is simple json:
         "out/script.js": [
                 "src1.js",
                 "src2.js"
-            ]
-        }
+        ]
     },
 
     "less": {
@@ -52,7 +51,7 @@ So Fuller needs a plan, and it is simple json:
     }
 }
 ```
-You can specify default option in global section, and overide them on runtime with options.
+You can specify default option in global section, and overide them with command line.
 
 ### Global ###
     src: relative path to directory with source files
