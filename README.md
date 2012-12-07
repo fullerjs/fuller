@@ -10,11 +10,11 @@ _Richard Buckminster "Bucky" Fuller was an American systems theorist, architect,
     fuller [-p plan.json] [-j] [-c] [-d] [-v]
 
 ```
---plan, -p  Plan file name (plan.json by default)
---watch, -w Watch mode
---js, -j    Compile js only
---css, -c   Compile css only
---dev, -d   Developer version (no minifing and compressions)
+--plan, -p      Plan file name (plan.json by default)
+--watch, -w     Watch mode
+--js, -j        Compile js only
+--css, -c       Compile css only
+--dev, -d       Developer version (no minifing and compressions)
 --verbose, -v   Verbose mode
 ```
 ## Plan ##
