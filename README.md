@@ -7,14 +7,16 @@ _Richard Buckminster "Bucky" Fuller was an American systems theorist, architect,
     npm install fuller -g
 
 ## Usage ##
-    fuller [-p plan.json] [-j] [-c] [-d] [-v]
+    fuller [-p plan.json] [-w] [-s] [-d] [-j] [-c] [-z] [-v]
 
 ```
---plan, -p      Plan file name (plan.json by default)
---watch, -w     Watch mode
---js, -j        Compile js only
---css, -c       Compile css only
---dev, -d       Developer version (no minifing and compressions)
+--plan, -p  Plan file name (plan.json by default)
+--watch, -w Watch source directory for changes
+--src, -s   Relative path to directory with source files
+--dst, -d   Relative path to directory for compiled files
+--js, -j    Compile js only
+--css, -c   Compile css only
+--dev, -z   Developer version (no minifing and compressions)
 --verbose, -v   Verbose mode
 ```
 ## Plan ##
@@ -52,15 +54,8 @@ So Fuller needs a plan, and here it is, simple json:
     }
 }
 ```
-You can specify default option in global section, and overide them with command line.
-
 ### Global ###
-    src: relative path to directory with source files
-    dst: relative path to directory where we will build
-    js:  compile js only
-    css: compile css only
-    dev: developer version (no minifing and compressions)
-    verbose: verbose mode
+You can specify default option in global section, and overide them with command line.
 
 ### Js ###
     todo

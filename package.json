@@ -9,6 +9,7 @@
 	"preferGlobal": true,
 	"private": false,
 	"dependencies": {
+		"async":	"0.1.22",
 		"colors": 	"~0.6.0",
 		"args": 	"~0.0.3",
 		"ops": 		"~0.0.1",
