@@ -7,7 +7,7 @@ _Richard Buckminster "Bucky" Fuller was an American systems theorist, architect,
     npm install fuller -g
 
 ## Usage ##
-    fuller [-p plan.json] [-w] [-s] [-d] [-j] [-c] [-z] [-v]
+    fuller [-p plan.js] [-w] [-s] [-d] [-j] [-c] [-z] [-v]
 
 ```
 --plan, -p  Plan file name (plan.json by default)
