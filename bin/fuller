@@ -12,7 +12,7 @@ var options = args.Options.parse([
         name: 'plan',
         shortName: 'p',
         help: 'Plan file name',
-        defaultValue: 'plan.json'
+        defaultValue: 'plan.js'
     },
     {
         name: 'watch',

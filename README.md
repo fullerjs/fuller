@@ -20,41 +20,39 @@ _Richard Buckminster "Bucky" Fuller was an American systems theorist, architect,
 --verbose, -v   Verbose mode
 ```
 ## Plan ##
-So Fuller needs a plan, and here it is, simple json:
-```json
-{
-    "global": {
-        "src": "./src",
-        "dst": "./static",
-        "dev": true
+So Fuller needs a plan, and here it is, simple js:
+```js
+var defaults = {
+    src: "./src",
+    dst: "./static",
+    dev: true
+};
+
+var js = {
+    "out/script.js": {
+        lib: "jQuery",
+        src: ["src.js"]
     },
 
-    "js": {
-        "out/script.js": {
-            "lib": "jQuery",
-            "src": ["src.js"]
-        },
-
-        "out/script.js": {
-            "lib": "jQuery",
-            "src": [
-                "src1.js",
-                "src2.js"
-            ]
-        },
-
-        "out/script.js": [
+    "out/script.js": {
+        lib: "jQuery",
+        src: [
             "src1.js",
             "src2.js"
         ]
     },
 
-    "less": {
-        "out.css": "src.less",
-    }
+    "out/script.js": [
+        "src1.js",
+        "src2.js"
+    ]
+};
+
+var less = {
+        "out.css": "src.less"
 }
 ```
-### Global ###
+### Defaults ###
 You can specify default option in global section, and overide them with command line.
 
 ### Js ###
