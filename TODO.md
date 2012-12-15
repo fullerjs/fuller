@@ -19,10 +19,11 @@ fuller
 
 #Plan.js
 Tasks
+```js
 taskname = {
     command: "/path/to/run",
     help: "running stuff"
-}
+};
 
 taskname = {
     commands: [
@@ -30,8 +31,8 @@ taskname = {
         "/another/command
     ],
     help: "running stuff"
-}
-
+};
+```
 #Deploy
 Using pkgcloud lib for creating cloud deployment
 Cluster deployment through p2p between hubs.
