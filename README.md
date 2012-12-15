@@ -10,7 +10,7 @@ _Richard Buckminster "Bucky" Fuller was an American systems theorist, architect,
     fuller [-p plan.js] [-w] [-s] [-d] [-j] [-c] [-z] [-v]
 
 ```
---plan, -p  Plan file name (plan.json by default)
+--plan, -p  Plan file name (plan.js by default)
 --watch, -w Watch source directory for changes
 --src, -s   Relative path to directory with source files
 --dst, -d   Relative path to directory for compiled files

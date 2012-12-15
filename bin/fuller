@@ -83,6 +83,7 @@ if(opt.js || opt.css) {
 var fuller = new Fuller(opt);
 
 if(opt.watch) {
+    fuller.build();
     fuller.watch();
 } else {
     fuller.build();

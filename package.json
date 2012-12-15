@@ -1,8 +1,8 @@
 {
 	"name": "fuller",
 	"version": "0.0.1",
-	"description": "Assets building tool for node",
-	"keywords": ["js", "uglify", "class", "package", "less"],
+	"description": "Complete deploy automation tool for node",
+	"keywords": ["js", "uglify", "deploy", "automation", "less"],
 	"author": {
 		"name": "Alexey Novikov"
 	},
@@ -13,6 +13,7 @@
 		"colors": 	"~0.6.0",
 		"args": 	"~0.0.3",
 		"ops": 		"~0.0.1",
+		"apis": 	"~0.0.1",
 		"uglify-js":"~2.2.2",
 		"less": 	"~1.3.1"
 	},
@@ -22,7 +23,7 @@
 	"bundledDependencies": [
 	],
 	"engines": {
-		"node": "~0.8.6"
+		"node": "~0.8.15"
 	},
 	"repository": {
 		"type": "git",
