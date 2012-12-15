@@ -28,7 +28,7 @@ taskname = {
 taskname = {
     commands: [
         "/path/to/run", 
-        "/another/command
+        "/another/command"
     ],
     help: "running stuff"
 };
