@@ -23,12 +23,10 @@ var options = args.Options.parse([
     },
     {
         name: 'src',
-        shortName: 's',
         help: 'Relative path to directory with source files',
     },
     {
         name: 'dst',
-        shortName: 'd',
         help: 'Relative path to directory for compiled files',
     },
     {
@@ -39,7 +37,7 @@ var options = args.Options.parse([
     },
     {
         name: 'css',
-        shortName: 'c',
+        shortName: 's',
         type: 'bool',
         help: 'Compile css only',
     },
@@ -48,6 +46,12 @@ var options = args.Options.parse([
         shortName: 'z',
         type: 'bool',
         help: 'Developer version (no minifing and compressions)',
+    },
+    {
+        name: 'compile',
+        shortName: 'c',
+        type: 'bool',
+        help: 'Compile js with closure compiler',
     },
     {
         name: 'verbose',

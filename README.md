@@ -7,16 +7,17 @@ _Richard Buckminster "Bucky" Fuller was an American systems theorist, architect,
     npm install fuller -g
 
 ## Usage ##
-    fuller [-p plan.js] [-w] [-s] [-d] [-j] [-c] [-z] [-v]
+    fuller [-p plan.js] [-w] [-src] [-dst] [-j] [-s] [-c] [-z] [-v]
 
 ```
 --plan, -p  Plan file name (plan.js by default)
 --watch, -w Watch source directory for changes
---src, -s   Relative path to directory with source files
---dst, -d   Relative path to directory for compiled files
+--src       Relative path to directory with source files
+--dst       Relative path to directory for compiled files
 --js, -j    Compile js only
---css, -c   Compile css only
+--css, -s   Compile css only
 --dev, -z   Developer version (no minifing and compressions)
+--compile, -c   Compile js with closure compiler
 --verbose, -v   Verbose mode
 ```
 ## Plan ##
