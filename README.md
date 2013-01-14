@@ -43,7 +43,7 @@ var less = {
 ### Defaults ###
 You can specify default option in global section, and overide them with command line.
 
-### Js ###
+## CommonJS ##
 Fuller has his own tiny and deadly simple commonJS (nodejs like) module realization. It consists from just two functions _require_ and _exports_. You can write your client js like usual nodejs module.
 
 ```js
