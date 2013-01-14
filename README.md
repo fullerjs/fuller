@@ -30,19 +30,6 @@ var defaults = {
 };
 
 var js = {
-    "out/script.js": {
-        lib: "jQuery",
-        src: ["src.js"]
-    },
-
-    "out/script.js": {
-        lib: "jQuery",
-        src: [
-            "src1.js",
-            "src2.js"
-        ]
-    },
-
     "out/script.js": [
         "src1.js",
         "src2.js"
@@ -57,8 +44,18 @@ var less = {
 You can specify default option in global section, and overide them with command line.
 
 ### Js ###
-    todo
+Fuller has his own tiny and deadly simple commonJS (nodejs like) module realization. It consists from just two functions _require_ and _exports_. You can write your client js like usual nodejs module.
 
-### Less ###
-    todo
+```js
+    var a = require('a');
+    var b = function () {
+
+    }
+    exports('b', b);
+``` 
+
+Fuller will wrap all, app and each module, in closures. So your modules will be availible only for your app. If you need to make your module global (to be avalible outside your app), just use 
+```js
+    exports('b', b, true);
+```
 
