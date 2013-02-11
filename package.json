@@ -1,6 +1,6 @@
 {
 	"name": "fuller",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Complete deploy automation tool for node",
 	"keywords": ["js", "uglify", "deploy", "automation", "less"],
 	"author": {
@@ -15,7 +15,7 @@
 		"ops": 		"~0.0.1",
 		"apis": 	"~0.0.1",
 		"uglify-js":"~2.2.2",
-		"less": 	"~1.3.1"
+		"less": 	"~1.4.0"
 	},
 	"devDependencies": {
 
