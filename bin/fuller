@@ -6,75 +6,35 @@ var fs = require('fs');
 var path = require('path');
 var args = require('args');
 var Fuller = require('../lib');
+var defaults = require('../lib/defaults');
 
-var options = args.Options.parse([
-    {
-        name: 'plan',
-        shortName: 'p',
-        help: 'Plan file name',
-        defaultValue: 'plan.js'
-    },
-    {
-        name: 'watch',
-        shortName: 'w',
-        type: 'bool',
-        help: 'Watch source directory for changes',
-        defaultValue: false
-    },
-    {
-        name: 'src',
-        help: 'Relative path to directory with source files',
-    },
-    {
-        name: 'dst',
-        help: 'Relative path to directory for compiled files',
-    },
-    {
-        name: 'js',
-        shortName: 'j',
-        type: 'bool',
-        help: 'Compile js only',
-    },
-    {
-        name: 'css',
-        shortName: 's',
-        type: 'bool',
-        help: 'Compile css only',
-    },
-    {
-        name: 'dev',
-        shortName: 'z',
-        type: 'bool',
-        help: 'Developer version (no minifing and compressions)',
-    },
-    {
-        name: 'compile',
-        shortName: 'c',
-        type: 'bool',
-        help: 'Compile js with closure compiler',
-    },
-    {
-        name: 'verbose',
-        shortName: 'v',
-        type: 'bool',
-        help: 'Verbose mode',
-        defaultValue: false
+var planFile = path.join(process.cwd(), 'plan.js');
+if (!fs.existsSync(planFile)) {
+    console.log('Error: can\'t find a plan');
+    process.exit(1);
+}
+
+var plan = require(planFile);
+
+var task,
+    runnedTask = false;
+for(task in plan.tasks) {
+    if(task !== 'dev') {
+        defaults.push({
+            name: task,
+            type: 'bool',
+            defaultValue: false
+        });
     }
-]);
+}
 
+var options = args.Options.parse(defaults);
 try {
 	var opt = args.parse(options);
 } catch (err) {
 	console.log(options.getHelp());
 	process.exit(1);
 }
-
-var planFile = path.join(process.cwd(), opt.plan);
-if (!fs.existsSync(planFile)) {
-	console.log(options.getHelp());
-	process.exit(1);
-}
-opt.plan = planFile;
 
 if(opt.js || opt.css) {
     if(opt.js) { opt.css = false; }
@@ -84,12 +44,22 @@ if(opt.js || opt.css) {
     opt.css = true;
 }
 
-var fuller = new Fuller(opt);
+var fuller = new Fuller(plan, opt);
 
-if(opt.watch) {
-    fuller.build();
-    fuller.watch();
-} else {
-    fuller.build();
+
+for(task in plan.tasks) {
+    if(task !== 'dev' && opt[task]) {
+        plan.tasks[task](fuller);
+        runnedTask = true;
+    }
+}
+
+if(!runnedTask) {
+    if(opt.watch) {
+        fuller.build();
+        fuller.watch();
+    } else {
+        fuller.build();
+    }
 }
 
