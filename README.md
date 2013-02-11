@@ -7,10 +7,9 @@ _Richard Buckminster "Bucky" Fuller was an American systems theorist, architect,
     npm install fuller -g
 
 ## Usage ##
-    fuller [-p plan.js] [-w] [-src] [-dst] [-j] [-s] [-c] [-z] [-v]
+    fuller [-w] [-src] [-dst] [-j] [-s] [-c] [-z] [-v]
 
 ```
---plan, -p  Plan file name (plan.js by default)
 --watch, -w Watch source directory for changes
 --src       Relative path to directory with source files
 --dst       Relative path to directory for compiled files
@@ -21,7 +20,7 @@ _Richard Buckminster "Bucky" Fuller was an American systems theorist, architect,
 --verbose, -v   Verbose mode
 ```
 ## Plan ##
-So Fuller needs a plan, and here it is, simple js:
+So Fuller needs a plan.js, and here it is:
 ```js
 var defaults = {
     src: "./src",
@@ -58,4 +57,19 @@ Fuller will wrap all, app and each module, in closures. So your modules will be 
 ```js
     exports('b', b, true);
 ```
+## Tasks
+You can specify your own tasks:
+```js
+tasks = {
+    start: function(fuller) {
+        fuller.build(); //build all js and/or less
+        fuller.run('bin/cmd start') //run cmd
+    }
+}
+```
+and then just run it
+    fuller --start
 
+Don't forget about verbose mode here if you needed.
+
+Bonus, you can specify dev task. It'll be run before all others tasks when you'll use -z(--dev) key.
