@@ -20,7 +20,7 @@ _Richard Buckminster "Bucky" Fuller was an American systems theorist, architect,
 --verbose, -v   Verbose mode
 ```
 ## Plan ##
-So Fuller needs a plan.js, and here it is:
+So Fuller needs a plan, it is a simple node module:
 ```js
 var defaults = {
     src: "./src",
@@ -37,7 +37,18 @@ var js = {
 
 var less = {
         "out.css": "src.less"
+};
+
+var tasks = {
+    //look for further explanation in the text below
 }
+
+module.exports = {
+    defaults: defaults,
+    tasks: tasks,
+    js: js,
+    less: less
+};
 ```
 ### Defaults ###
 You can specify default option in global section, and overide them with command line.
@@ -58,11 +69,11 @@ Fuller will wrap all, app and each module, in closures. So your modules will be 
     exports('b', b, true);
 ```
 ## Tasks
-You can specify your own tasks:
+You can specify your own tasks in plan:
 ```js
 tasks = {
     start: function(fuller) {
-        fuller.build(); //build all js and/or less
+        fuller.build();             //build all js and/or less
         fuller.run('bin/cmd start') //run cmd
     }
 }
@@ -71,5 +82,24 @@ and then just run it
     fuller --start
 
 Don't forget about verbose mode here if you needed.
+
+The fuller var in your task function is a pointer to global fuller object.
+
+__fuller.plan__        your plan
+__fuller.build()__     build all your js/styles from plan
+__fuller.watch()__     watch for changes in all your js/styles from plan and recompile it.
+__fuller.run(cmd)__    run cmd
+
+Verbose mode:
+__fuller.verbose.log(str)__
+print str to console if fuller in verbose mode
+
+Several help functions:
+__fuller.concat(path, arrayFileNames, [prependString], [appendString])__ 
+concatenates files with base path and strings for appeding and prepending to result.
+
+__fuller.writeFileForce(pathFile, data, cb)__
+writes file, but if destination directory not exist creates it.
+```
 
 Bonus, you can specify dev task. It'll be run before all others tasks when you'll use -z(--dev) key.
