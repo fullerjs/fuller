@@ -85,21 +85,22 @@ Don't forget about verbose mode here if you needed.
 
 The fuller var in your task function is a pointer to global fuller object.
 
-__fuller.plan__        your plan
-__fuller.build()__     build all your js/styles from plan
-__fuller.watch()__     watch for changes in all your js/styles from plan and recompile it.
-__fuller.run(cmd)__    run cmd
+__fuller.plan__ — your plan
+
+__fuller.build()__ — build all your js/styles from plan
+
+__fuller.watch()__ — watch for changes in all your js/styles from plan and recompile it.
+
+__fuller.run(cmd)__ — run cmd
 
 Verbose mode:
-__fuller.verbose.log(str)__
-print str to console if fuller in verbose mode
+
+__fuller.verbose.log(str)__ — print str to console if fuller in verbose mode
 
 Several help functions:
-__fuller.concat(path, arrayFileNames, [prependString], [appendString])__ 
-concatenates files with base path and strings for appeding and prepending to result.
 
-__fuller.writeFileForce(pathFile, data, cb)__
-writes file, but if destination directory not exist creates it.
-```
+__fuller.concat(path, arrayFileNames, [prependString], [appendString])__ — concatenates files with base path and strings for appeding and prepending to result.
+
+__fuller.writeFileForce(pathFile, data, cb)__ — writes file, but if destination directory not exist creates it.
 
 Bonus, you can specify dev task. It'll be run before all others tasks when you'll use -z(--dev) key.
