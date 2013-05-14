@@ -46,7 +46,6 @@ if(opt.js || opt.css) {
 
 var fuller = new Fuller(plan, opt);
 
-
 for(task in plan.tasks) {
     if(task !== 'dev' && opt[task]) {
         plan.tasks[task](fuller);

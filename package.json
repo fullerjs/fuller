@@ -1,11 +1,9 @@
 {
 	"name": "fuller",
-	"version": "0.0.6",
-	"description": "Complete deploy automation tool for node",
-	"keywords": ["js", "uglify", "deploy", "automation", "less"],
-	"author": {
-		"name": "Alexey Novikov"
-	},
+	"version": "0.1.0",
+	"description": "Build utility for browser's stuff written on nodejs",
+	"keywords": ["js", "uglify", "deploy", "automation", "less", "browser", "plugins"],
+	"author": "Alexey Novikov (http://2dubs.com)",
 	"preferGlobal": true,
 	"private": false,
 	"dependencies": {
@@ -13,14 +11,7 @@
 		"colors": 	"~0.6.0",
 		"args": 	"~0.0.3",
 		"ops": 		"~0.0.1",
-		"uglify-js":"~2.2.2",
-		"less": 	"~1.4.0"
 	},
-	"devDependencies": {
-
-	},
-	"bundledDependencies": [
-	],
 	"engines": {
 		"node": "~0.10.0"
 	},
