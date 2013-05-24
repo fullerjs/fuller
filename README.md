@@ -16,6 +16,7 @@ _Richard Buckminster "Bucky" Fuller was an American systems theorist, architect,
 --dev, -z       Developer version (usually this means no minifing and compressions, but depends from plugin)
 --verbose, -v   Verbose mode
 --task-name     Run task specified by plan
+```
 
 ## Tools ##
 This is about right tools. But what is a Tool? Tool is a plugin, that building something according to plan. Plan is a simple js object:
@@ -55,7 +56,6 @@ You should include tools' packages in your project's package.json
 Needs to be written. 
 But you can check fuller's js build tool.
 
-```
 ## Plan ##
 So Mr. Fuller needs a plan, it is a simple node module:
 ```js
