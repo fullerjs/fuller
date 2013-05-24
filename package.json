@@ -17,7 +17,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git@github.com:velocityzen/fuller.git"
+		"url": "git@github.com:fullerjs/fuller.git"
 	},
 	"directories": {
 		"lib": "./lib",
