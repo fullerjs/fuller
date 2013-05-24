@@ -1,5 +1,5 @@
 # Fuller #
-## Build utility for browser's stuff written on nodejs ##
+## Build everything with right tool##
 
 _Richard Buckminster "Bucky" Fuller was an American systems theorist, architect, engineer, author, designer, inventor, and futurist_
 
@@ -7,17 +7,15 @@ _Richard Buckminster "Bucky" Fuller was an American systems theorist, architect,
     npm install fuller -g
 
 ## Usage ##
-    fuller [-w] [-src] [-dst] [-j] [-s] [-c] [-z] [-v]
+    fuller [-w] [-src] [-dst] [-c] [-z] [-v]
 
 ```
 --watch, -w Watch source directory for changes
 --src       Relative path to directory with source files
 --dst       Relative path to directory for compiled files
---js, -j    Compile js only
---css, -s   Compile css only
---dev, -z   Developer version (no minifing and compressions)
---compile, -c   Compile js with closure compiler
+--dev, -z   Developer version (usually this means no minifing and compressions, but depends from plugin)
 --verbose, -v   Verbose mode
+
 ```
 ## Plan ##
 So Fuller needs a plan, it is a simple node module:
@@ -46,28 +44,36 @@ var tasks = {
 module.exports = {
     defaults: defaults,
     tasks: tasks,
-    js: js,
-    less: less
+
+    tools : {
+        js: {plan: js, tools: ['common-js', 'uglify']},
+        less: {plan: less},
+    }
 };
 ```
+
 ### Defaults ###
 You can specify default option in global section, and overide them with command line.
 
-## CommonJS ##
-Fuller has his own tiny and deadly simple commonJS (nodejs like) module realization. It consists from just two functions _require_ and _exports_. You can write your client js like usual nodejs module.
+### Tools ###
+Main feature, tool is a plugin.
+Now we have tools for building javascript and less
+You should include plugins in your project's package.json
 
-```js
-    var a = require('a');
-    var b = function () {
+### Tools API ###
+Needs to be written. 
+But you can check fuller's js build tool.
 
-    }
-    exports('b', b);
-``` 
+#### File tools ####
+Also fuller has special purpose file tools. You can load in your plugin with a fuller.getTool('files').
 
-Fuller will wrap all, app and each module, in closures. So your modules will be availible only for your app. If you need to make your module global (to be avalible outside your app), just use 
-```js
-    exports('b', b, true);
-```
+* __concat(path, arrayFileNames, [prependString], [appendString])__ — concatenates files with base path and strings for appeding and prepending to result.
+* __treeToArray(srcPath, files)__ — converts path and array of files to array of full paths to files
+* __writeForce(pathFile, data, cb)__ — writes file, but if destination directory not exist creates it.
+* __addDependence(deps, master, slave)__ — adds depenencies to deps object
+* __mkdirp__ — make path
+* __watchFiles(root, arrayFileNames, cb)__ — adds watchers and run cb on files changes.
+
 ## Tasks
 You can specify your own tasks in plan:
 ```js
@@ -96,11 +102,5 @@ __fuller.run(cmd)__ — run cmd
 Verbose mode:
 
 __fuller.verbose.log(str)__ — print str to console if fuller in verbose mode
-
-Several help functions:
-
-__fuller.concat(path, arrayFileNames, [prependString], [appendString])__ — concatenates files with base path and strings for appeding and prepending to result.
-
-__fuller.writeFileForce(pathFile, data, cb)__ — writes file, but if destination directory not exist creates it.
 
 Bonus, you can specify dev task. It'll be run before all others tasks when you'll use -z(--dev) key.
