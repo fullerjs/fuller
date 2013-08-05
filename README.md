@@ -85,8 +85,8 @@ module.exports = {
     tasks: tasks,
 
     tools : {
-        js: {files: js, tools: ['common-js', 'uglify']},
-        less: {files: less},
+        concat: {tasks: js, tools: ['common-js', 'uglify']},
+        less: {tasks: less},
     }
 };
 ```

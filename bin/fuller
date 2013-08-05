@@ -36,14 +36,6 @@ try {
 	process.exit(1);
 }
 
-if(opt.js || opt.css) {
-    if(opt.js) { opt.css = false; }
-    if(opt.css) { opt.js = false; }
-} else {
-    opt.js = true;
-    opt.css = true;
-}
-
 var fuller = new Fuller(plan, opt);
 
 for(task in plan.tasks) {
