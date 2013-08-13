@@ -28,18 +28,22 @@
         </ul>
       </header>
       <section>
-        <h1>Fuller</h1>
+        <h1>
+<a name="fuller" class="anchor" href="#fuller"><span class="octicon octicon-link"></span></a>Fuller</h1>
 
-<h2>Build everything with right tool</h2>
+<h2>
+<a name="build-everything-with-right-tool" class="anchor" href="#build-everything-with-right-tool"><span class="octicon octicon-link"></span></a>Build everything with right tool</h2>
 
 <p><em>Richard Buckminster "Bucky" Fuller was an American systems theorist, architect, engineer, author, designer, inventor, and futurist</em></p>
 
-<h2>Install</h2>
+<h2>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h2>
 
 <pre><code>npm install fuller -g
 </code></pre>
 
-<h2>Usage</h2>
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <pre><code>fuller [-w] [-src] [-dst] [-c] [-z] [-v]
 </code></pre>
@@ -52,7 +56,8 @@
 --task-name     Run task specified by plan
 </code></pre>
 
-<h2>Tools</h2>
+<h2>
+<a name="tools" class="anchor" href="#tools"><span class="octicon octicon-link"></span></a>Tools</h2>
 
 <p>This is about right tools. But what is a Tool? Tool is a plugin, that building something according to plan. Plan is a simple js object:</p>
 
@@ -89,12 +94,14 @@
 
 <p>You should include tools' packages in your project's package.json</p>
 
-<h3>Tools API</h3>
+<h3>
+<a name="tools-api" class="anchor" href="#tools-api"><span class="octicon octicon-link"></span></a>Tools API</h3>
 
 <p>Needs to be written. 
 But you can check fuller's js build tool.</p>
 
-<h2>Plan</h2>
+<h2>
+<a name="plan" class="anchor" href="#plan"><span class="octicon octicon-link"></span></a>Plan</h2>
 
 <p>So Mr. Fuller needs a plan, it is a simple node module:</p>
 
@@ -124,17 +131,19 @@ But you can check fuller's js build tool.</p>
     <span class="nx">tasks</span><span class="o">:</span> <span class="nx">tasks</span><span class="p">,</span>
 
     <span class="nx">tools</span> <span class="o">:</span> <span class="p">{</span>
-        <span class="nx">js</span><span class="o">:</span> <span class="p">{</span><span class="nx">files</span><span class="o">:</span> <span class="nx">js</span><span class="p">,</span> <span class="nx">tools</span><span class="o">:</span> <span class="p">[</span><span class="s1">'common-js'</span><span class="p">,</span> <span class="s1">'uglify'</span><span class="p">]},</span>
-        <span class="nx">less</span><span class="o">:</span> <span class="p">{</span><span class="nx">files</span><span class="o">:</span> <span class="nx">less</span><span class="p">},</span>
+        <span class="nx">concat</span><span class="o">:</span> <span class="p">{</span><span class="nx">tasks</span><span class="o">:</span> <span class="nx">js</span><span class="p">,</span> <span class="nx">tools</span><span class="o">:</span> <span class="p">[</span><span class="s1">'common-js'</span><span class="p">,</span> <span class="s1">'uglify'</span><span class="p">]},</span>
+        <span class="nx">less</span><span class="o">:</span> <span class="p">{</span><span class="nx">tasks</span><span class="o">:</span> <span class="nx">less</span><span class="p">},</span>
     <span class="p">}</span>
 <span class="p">};</span>
 </pre></div>
 
-<h3>Defaults</h3>
+<h3>
+<a name="defaults" class="anchor" href="#defaults"><span class="octicon octicon-link"></span></a>Defaults</h3>
 
 <p>You can specify default option in global section, and overide them with command line.</p>
 
-<h4>File tools</h4>
+<h4>
+<a name="file-tools" class="anchor" href="#file-tools"><span class="octicon octicon-link"></span></a>File tools</h4>
 
 <p>Also fuller has special purpose file tools. You can load in your plugin with a fuller.getTool('files').</p>
 
@@ -151,7 +160,8 @@ But you can check fuller's js build tool.</p>
 <strong>mkdirp</strong> — make path</li>
 <li>
 <strong>watchFiles(root, arrayFileNames, cb)</strong> — adds watchers and run cb on files changes.</li>
-</ul><h2>Tasks</h2>
+</ul><h2>
+<a name="tasks" class="anchor" href="#tasks"><span class="octicon octicon-link"></span></a>Tasks</h2>
 
 <p>You can specify your own tasks in plan:</p>
 
