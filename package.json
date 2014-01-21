@@ -1,14 +1,14 @@
 {
 	"name": "fuller",
-	"version": "0.1.1",
-	"description": "Build utility for browser's stuff written on nodejs",
+	"version": "0.2.0",
+	"description": "Build everything with right tool",
 	"license" : "BSD",
 	"keywords": ["js", "uglify", "deploy", "automation", "less", "browser", "plugins"],
 	"author": "Alexey Novikov (http://2dubs.com)",
 	"preferGlobal": true,
 	"private": false,
 	"dependencies": {
-		"async":	"0.1.22",
+		"async":	"0.2.9",
 		"colors": 	"~0.6.0",
 		"args": 	"~0.0.3",
 		"ops": 		"~0.0.1"
