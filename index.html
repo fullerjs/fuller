@@ -45,7 +45,7 @@
 <h2>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<pre><code>fuller [-w] [-src] [-dst] [-c] [-z] [-v]
+<pre><code>fuller [-w] [-z] [-v] [--src] [--dst] [--taskName] [--toolSetName]
 </code></pre>
 
 <pre><code>--watch, -w     Watch source directory for changes
@@ -53,61 +53,38 @@
 --dst           Relative path to directory for compiled files
 --dev, -z       Developer version (usually this means no minifing and compressions, but depends from plugin)
 --verbose, -v   Verbose mode
---task-name     Run task specified by plan
+--taskName      Run task from plan
+--toolSetName   Run toolSet from plan
 </code></pre>
-
-<h2>
-<a name="tools" class="anchor" href="#tools"><span class="octicon octicon-link"></span></a>Tools</h2>
-
-<p>This is about right tools. But what is a Tool? Tool is a plugin, that building something according to plan. Plan is a simple js object:</p>
-
-<div class="highlight"><pre><span class="nx">plan</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">someOtherUsefulStuff</span><span class="o">:</span> <span class="nx">Stuff</span><span class="p">,</span>
-
-    <span class="nx">tools</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">toolName</span><span class="o">:</span> <span class="nx">toolPlan</span>
-    <span class="p">},</span>
-<span class="p">}</span>
-</pre></div>
-
-<p>or if your tool don't need a plan it can be simple array</p>
-
-<div class="highlight"><pre><span class="nx">plan</span> <span class="o">=</span> <span class="p">{</span>    
-    <span class="nx">tools</span><span class="o">:</span> <span class="p">[</span><span class="s1">'tool1'</span><span class="p">,</span> <span class="s1">'tool2'</span><span class="p">]</span>
-<span class="p">}</span>
-</pre></div>
-
-<p>What's interesting tools can use another tools...</p>
-
-<div class="highlight"><pre><span class="nx">plan</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">tools</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">tool1</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">tools</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">tool2</span><span class="o">:</span> <span class="nx">etc</span><span class="p">;</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-
-<p><strong>;)</strong></p>
-
-<p>You should include tools' packages in your project's package.json</p>
-
-<h3>
-<a name="tools-api" class="anchor" href="#tools-api"><span class="octicon octicon-link"></span></a>Tools API</h3>
-
-<p>Needs to be written. 
-But you can check fuller's js build tool.</p>
 
 <h2>
 <a name="plan" class="anchor" href="#plan"><span class="octicon octicon-link"></span></a>Plan</h2>
 
-<p>So Mr. Fuller needs a plan, it is a simple node module:</p>
+<p>So Mr. Fuller needs a plan to build something. All plans looks like this:</p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">defaults</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight highlight-js"><pre><span class="nx">plan</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">defaults</span><span class="p">,</span>
+    <span class="nx">tasks</span><span class="p">,</span>
+    <span class="nx">tools</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">toolName</span><span class="o">:</span> <span class="nx">toolPlan</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>If you don't need tool's plan tools section can be a simple array.</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">plan</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">defaults</span><span class="p">,</span>
+    <span class="nx">tasks</span><span class="p">,</span>
+    <span class="nx">tools</span><span class="o">:</span> <span class="p">[</span><span class="s2">"toolName1"</span><span class="p">,</span> <span class="s2">"toolName2"</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>At start fuller trying to find plan.js file in current directory. So global plan is a simple module:</p>
+
+<div class="highlight highlight-js"><pre><span class="kd">var</span> <span class="nx">defaults</span> <span class="o">=</span> <span class="p">{</span>
     <span class="nx">src</span><span class="o">:</span> <span class="s2">"./src"</span><span class="p">,</span>
-    <span class="nx">dst</span><span class="o">:</span> <span class="s2">"./static"</span><span class="p">,</span>
+    <span class="nx">dst</span><span class="o">:</span> <span class="s2">"./"</span><span class="p">,</span>
     <span class="nx">dev</span><span class="o">:</span> <span class="kc">true</span>
 <span class="p">};</span>
 
@@ -129,18 +106,77 @@ But you can check fuller's js build tool.</p>
 <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
     <span class="nx">defaults</span><span class="o">:</span> <span class="nx">defaults</span><span class="p">,</span>
     <span class="nx">tasks</span><span class="o">:</span> <span class="nx">tasks</span><span class="p">,</span>
-
     <span class="nx">tools</span> <span class="o">:</span> <span class="p">{</span>
-        <span class="nx">concat</span><span class="o">:</span> <span class="p">{</span><span class="nx">tasks</span><span class="o">:</span> <span class="nx">js</span><span class="p">,</span> <span class="nx">tools</span><span class="o">:</span> <span class="p">[</span><span class="s1">'common-js'</span><span class="p">,</span> <span class="s1">'uglify'</span><span class="p">]},</span>
+        <span class="nx">concat</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">tasks</span><span class="o">:</span> <span class="nx">js</span><span class="p">,</span> 
+            <span class="nx">defaults</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">src</span><span class="o">:</span> <span class="nx">defaults</span><span class="p">.</span><span class="nx">src</span> <span class="o">+</span> <span class="s2">"/js"</span>
+            <span class="p">},</span>
+            <span class="nx">tools</span><span class="o">:</span> <span class="p">[</span><span class="s1">'common-js'</span><span class="p">,</span> <span class="s1">'uglify'</span><span class="p">]</span>
+        <span class="p">},</span>
         <span class="nx">less</span><span class="o">:</span> <span class="p">{</span><span class="nx">tasks</span><span class="o">:</span> <span class="nx">less</span><span class="p">},</span>
     <span class="p">}</span>
 <span class="p">};</span>
 </pre></div>
 
+<p>In global plan you can make named tool sets. And run single tool set from command line. For example:</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">defaults</span><span class="o">:</span> <span class="nx">defaults</span><span class="p">,</span>
+    <span class="nx">tasks</span><span class="o">:</span> <span class="nx">tasks</span><span class="p">,</span>
+
+    <span class="s2">"static"</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">defaults</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">dst</span><span class="o">:</span> <span class="nx">defaults</span><span class="p">.</span><span class="nx">dst</span> <span class="o">+</span> <span class="s2">"static"</span>
+        <span class="p">},</span>
+        <span class="nx">tools</span> <span class="o">:</span> <span class="p">{</span>
+            <span class="nx">concat</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">tasks</span><span class="o">:</span> <span class="nx">js</span><span class="p">,</span> 
+                <span class="nx">defaults</span><span class="o">:</span> <span class="p">{</span>
+                    <span class="nx">src</span><span class="o">:</span> <span class="nx">defaults</span><span class="p">.</span><span class="nx">src</span> <span class="o">+</span> <span class="s2">"/js"</span>
+                <span class="p">},</span>
+                <span class="nx">tools</span><span class="o">:</span> <span class="p">[</span><span class="s1">'common-js'</span><span class="p">,</span> <span class="s1">'uglify'</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="nx">less</span><span class="o">:</span> <span class="p">{</span><span class="nx">tasks</span><span class="o">:</span> <span class="nx">less</span><span class="p">},</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+
+<p>if you didn't make tool set, it's means <code>"default"</code> tool set. And it will be run on fuller start.</p>
+
+<h2>
+<a name="tools" class="anchor" href="#tools"><span class="octicon octicon-link"></span></a>Tools</h2>
+
+<p>This is about right tools. But what is a Tool? Tool is a plugin, that building something according to plan. </p>
+
+<p>What's interesting tools can use another tools...</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">plan</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">tools</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">tool1</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">tools</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">tool2</span><span class="o">:</span> <span class="nx">etc</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p><strong>;)</strong></p>
+
+<p>You should include tools' packages in your project's package.json</p>
+
+<h3>
+<a name="tools-api" class="anchor" href="#tools-api"><span class="octicon octicon-link"></span></a>Tools API</h3>
+
+<p>Needs to be written. 
+But you can check fuller's tools.</p>
+
 <h3>
 <a name="defaults" class="anchor" href="#defaults"><span class="octicon octicon-link"></span></a>Defaults</h3>
 
-<p>You can specify default option in global section, and overide them with command line.</p>
+<p>You can specify defaults option in global section, or in tool's part of the plan.</p>
 
 <h4>
 <a name="file-tools" class="anchor" href="#file-tools"><span class="octicon octicon-link"></span></a>File tools</h4>
@@ -161,38 +197,38 @@ But you can check fuller's js build tool.</p>
 <li>
 <strong>watchFiles(root, arrayFileNames, cb)</strong> — adds watchers and run cb on files changes.</li>
 </ul><h2>
-<a name="tasks" class="anchor" href="#tasks"><span class="octicon octicon-link"></span></a>Tasks</h2>
+<a name="global-tasks" class="anchor" href="#global-tasks"><span class="octicon octicon-link"></span></a>Global tasks</h2>
 
 <p>You can specify your own tasks in plan:</p>
 
-<div class="highlight"><pre><span class="nx">tasks</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">start</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fuller</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-js"><pre><span class="nx">tasks</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">start</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fuller</span><span class="p">,</span> <span class="nx">defaults</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">fuller</span><span class="p">.</span><span class="nx">build</span><span class="p">();</span>             <span class="c1">//builds everything</span>
         <span class="nx">fuller</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="s1">'bin/cmd start'</span><span class="p">)</span> <span class="c1">//run cmd</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 
-<p>and then just run it
-    fuller --start</p>
+<p>and then just run it <code>fuller --start</code></p>
 
 <p>Don't forget about verbose mode here if you needed.</p>
 
 <p>The fuller var in your task function is a pointer to global fuller object.</p>
 
-<p><strong>fuller.plan</strong> — your plan</p>
-
-<p><strong>fuller.build()</strong> — builds everything.</p>
-
-<p><strong>fuller.watch()</strong> — watch for changes in all  tools.</p>
-
-<p><strong>fuller.run(cmd)</strong> — run cmd</p>
-
-<p>Verbose mode:</p>
-
-<p><strong>fuller.verbose.log(str)</strong> — print str to console if fuller in verbose mode</p>
-
-<p>Bonus, you can specify dev task. It'll be run before all others tasks when you'll use -z(--dev) key.</p>
+<ul>
+<li>
+<strong>fuller.plan</strong> — your plan</li>
+<li>
+<strong>fuller.build()</strong> — builds everything.</li>
+<li>
+<strong>fuller.watch()</strong> — watch for changes in all  tools.</li>
+<li>
+<strong>fuller.run(cmd)</strong> — run cmd</li>
+<li>
+<strong>fuller.verbose.log(str)</strong> — print str to console if fuller in verbose mode</li>
+<li>
+<strong>fuller.getTool('toolName')</strong> — return tool instance</li>
+</ul><p>Bonus, you can specify dev task. It'll be run before all others tasks when you'll use -z(--dev) key.</p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/fullerjs">fullerjs</a></p>
