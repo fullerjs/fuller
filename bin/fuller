@@ -5,8 +5,8 @@
 var fs = require('fs');
 var path = require('path');
 var args = require('args');
-var Fuller = require('../lib').Fuller;
-var dontCare = require('../lib').dontCare;
+var Fuller = require('../lib');
+var rxReserved = require('../lib/tools/plan').rxReserved;
 var defaultOpts = require('../lib/defaults');
 
 var planFile = path.join(process.cwd(), 'plan.js');
@@ -15,23 +15,10 @@ if (!fs.existsSync(planFile)) {
     process.exit(1);
 }
 
-var plan = require(planFile);
-
-var task,
-    runnedTask = false;
-
-for(task in plan.tasks) {
-    if(task !== 'dev') {
-        defaultOpts.push({
-            name: task,
-            type: 'bool',
-            defaultValue: false
-        });
-    }
-}
+var task, runTask, plan = require(planFile);
 
 for(task in plan) {
-    if(dontCare.indexOf(task) === -1) {
+    if(rxReserved.test(task) === -1) {
         defaultOpts.push({
             name: task,
             type: 'bool',
@@ -41,6 +28,7 @@ for(task in plan) {
 }
 
 var options = args.Options.parse(defaultOpts);
+
 try {
 	var opt = args.parse(options);
 } catch (err) {
@@ -48,21 +36,11 @@ try {
 	process.exit(1);
 }
 
-var fuller = new Fuller(plan, opt);
-
-for(task in plan.tasks) {
+for(task in plan) {
     if(task !== 'dev' && opt[task]) {
-        plan.tasks[task](fuller, fuller.defaults);
-        runnedTask = true;
+        runTask = task;
+        break;
     }
 }
 
-if(!runnedTask) {
-    if(opt.watch) {
-        fuller.build();
-        fuller.watch();
-    } else {
-        fuller.build();
-    }
-}
-
+var fuller = new Fuller("plan.js", runTask, opt);

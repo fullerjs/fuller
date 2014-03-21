@@ -1,6 +1,6 @@
 {
 	"name": "fuller",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "Build everything with right tool",
 	"license" : "BSD",
 	"keywords": ["js", "uglify", "deploy", "automation", "less", "browser", "plugins"],
@@ -8,10 +8,11 @@
 	"preferGlobal": true,
 	"private": false,
 	"dependencies": {
-		"async":	"0.2.9",
-		"colors": 	"~0.6.0",
+		"chalk": 	"~0.4.0",
 		"args": 	"~0.0.3",
-		"ops": 		"~0.0.1"
+		"ops": 		"~0.0.1",
+		"mkdirp": 	"~0.3.5",
+		"coleccionista": "~0.0.2"
 	},
 	"engines": {
 		"node": "~0.10.0"

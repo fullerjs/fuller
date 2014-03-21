@@ -7,19 +7,20 @@ _Richard Buckminster "Bucky" Fuller was an American systems theorist, architect,
     npm install fuller -g
 
 ## Usage ##
-    fuller [-w] [-z] [-v] [--src] [--dst] [--taskName] [--toolSetName]
+    fuller [-w] [-z] [-v] [--src] [--dst] [--taskName]
 
 ```
 --watch, -w     Watch source directory for changes
 --src           Relative path to directory with source files
 --dst           Relative path to directory for compiled files
---dev, -z       Developer version (usually this means no minifing and compressions, but depends from plugin)
+--dev, -z       Developer mode (usually this means no minifing and compressions, but depends from plugin)
 --verbose, -v   Verbose mode
 --taskName      Run task from plan
---toolSetName   Run toolSet from plan
 ```
 
-## Plan ##
+## Plan
+### Belt
+### Task
 So Mr. Fuller needs a plan to build something. All plans looks like this:
 
 ```js
@@ -133,28 +134,6 @@ But you can check fuller's tools.
 
 ### Defaults ###
 You can specify defaults option in global section, or in tool's part of the plan.
-
-#### File tools ####
-Also fuller has special purpose file tools. You can load in your plugin with a fuller.getTool('files').
-
-* __concat(path, arrayFileNames, [prependString], [appendString])__ — concatenates files with base path and strings for appeding and prepending to result.
-* __treeToArray(srcPath, files)__ — converts path and array of files to array of full paths to files
-* __writeForce(pathFile, data, cb)__ — writes file, but if destination directory not exist creates it.
-* __addDependence(deps, master, slave)__ — adds depenencies to deps object
-* __mkdirp__ — make path
-* __watchFiles(root, arrayFileNames, cb)__ — adds watchers and run cb on files changes.
-
-## Global tasks
-You can specify your own tasks in plan:
-```js
-tasks = {
-    start: function(fuller, defaults) {
-        fuller.build();             //builds everything
-        fuller.run('bin/cmd start') //run cmd
-    }
-}
-```
-and then just run it `fuller --start`
 
 Don't forget about verbose mode here if you needed.
 
