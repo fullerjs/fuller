@@ -8,6 +8,7 @@
 	"preferGlobal": true,
 	"private": false,
 	"dependencies": {
+		"queueue": 	"~0.1.0",
 		"chalk": 	"~0.4.0",
 		"args": 	"~0.0.3",
 		"ops": 		"~0.0.1",
