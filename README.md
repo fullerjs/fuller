@@ -19,131 +19,68 @@ _Richard Buckminster "Bucky" Fuller was an American systems theorist, architect,
 ```
 
 ## Plan
-### Belt
-### Task
-So Mr. Fuller needs a plan to build something. All plans looks like this:
-
+Plan is a description file which contains Fuller config (`plan.js` by default):
 ```js
 plan = {
-    defaults,
-    tasks,
-    tools: {
-        toolName: toolPlan
-    }
-}
-```
+    options,
+    "default": {
+        "beltname": beltTasks
+    },
 
-If you don't need tool's plan tools section can be a simple array.
-```js
-plan = {
-    defaults,
-    tasks,
-    tools: ["toolName1", "toolName2"]
-}
-```
-
-At start fuller trying to find plan.js file in current directory. So global plan is a simple module:
-
-```js
-var defaults = {
-    src: "./src",
-    dst: "./",
-    dev: true
-};
-
-var js = {
-    "out/script.js": [
-        "src1.js",
-        "src2.js"
-    ]
-};
-
-var less = {
-        "out.css": "src.less"
-};
-
-var tasks = {
-    //look for further explanation in the text below
-}
-
-module.exports = {
-    defaults: defaults,
-    tasks: tasks,
-    tools : {
-        concat: {
-            tasks: js, 
-            defaults: {
-                src: defaults.src + "/js"
-            },
-            tools: ['common-js', 'uglify']
-        },
-        less: {tasks: less},
-    }
-};
-```
-
-In global plan you can make named tool sets. And run single tool set from command line. For example:
-```js
-module.exports = {
-    defaults: defaults,
-    tasks: tasks,
-
-    "static": {
-        defaults: {
-            dst: defaults.dst + "static"
-        },
-        tools : {
-            concat: {
-                tasks: js, 
-                defaults: {
-                    src: defaults.src + "/js"
-                },
-                tools: ['common-js', 'uglify']
-            },
-            less: {tasks: less},
-        },
-    }
-};
-```
-
-if you didn't make tool set, it's means `"default"` tool set. And it will be run on fuller start.
-
-## Tools ##
-This is about right tools. But what is a Tool? Tool is a plugin, that building something according to plan. 
-
-What's interesting tools can use another tools...
-```js
-plan: {
-    tools: {
-        tool1: {
-            tools: {
-                tool2: etc;
-            }
+    "belt:beltname": {
+        options,
+        toolname: {
+            options,
+            toolname: {...}
         }
     }
 }
 ```
 
-**;)**
+### Belt
+Belt represents a chain of tools. Take a look at belt definition example:
 
-You should include tools' packages in your project's package.json
+```js
+"belt:js": {
+    options: {
+        src: "js",
+        dst: "js"
+    },
 
-### Tools API ###
-Needs to be written. 
-But you can check fuller's tools.
+    "concat": {
+        "common-js": {
+            "uglify": {}
+        },
+    }
+},
+```
 
-### Defaults ###
-You can specify defaults option in global section, or in tool's part of the plan.
+Belt definition starts with "belt" keyword and ends with belt name - `belt:name` - in the given example belt is created with `js` name. 
+`options` is reserved property name - it may contain options that extend default plan's one - in out case default plan source and destination folders' paths are concatenated with belt's - files will be read from 'source/js/' folder and written to 'destination/js/' folder. 
+Other properties for belt object represent Fuller tools. Here we chain concat, common-js and uglify plugins.
 
-Don't forget about verbose mode here if you needed.
+### Tool
+Tool is a plugin that does something with provided data. In belt tools may be run in chain and next tool will receive result of previous one's work or they can work parallel. Tool looks like this: 
+
+```js
+{
+    options,    // optional
+    nextTool
+}
+```
+
+Options may contain described above information or any additional settings supported by tool.
+
+### Task
+Task is a declarative description of what should be done. Task may be function or an object or anythings - check the tool docs for details on task look.
+
+If no task was specified on Fuller run `default` one will be used. Everything except belts and options is a task. 
+
+### Options ###
+You can specify default options in global section, or in tool's part of the plan. Options declared in tools extend root options, source and destination paths are concatenated.
+
+Don't forget about verbose mode here if you need it.
 
 The fuller var in your task function is a pointer to global fuller object.
-
-* __fuller.plan__ — your plan
-* __fuller.build()__ — builds everything.
-* __fuller.watch()__ — watch for changes in all  tools.
-* __fuller.run(cmd)__ — run cmd
-* __fuller.verbose.log(str)__ — print str to console if fuller in verbose mode
-* __fuller.getTool('toolName')__ — return tool instance
 
 Bonus, you can specify dev task. It'll be run before all others tasks when you'll use -z(--dev) key.
