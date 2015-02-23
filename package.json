@@ -9,6 +9,7 @@
 	"private": false,
 	"dependencies": {
 		"queueue": 	"~0.2.1",
+		"chokidar": "~1.0.0",
 		"chalk": 	"~0.4.0",
 		"args": 	"~0.0.3",
 		"ops": 		"~0.0.1",
