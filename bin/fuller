@@ -1,46 +1,50 @@
 #!/usr/bin/env node
 
 "use strict";
+let fs = require("fs");
+let path = require("path");
+let args = require("args");
+let Fuller = require("../lib");
+let rxReserved = require("../lib/tools/plan").rxReserved;
+let defaultOpts = require("../lib/defaults");
 
-var fs = require('fs');
-var path = require('path');
-var args = require('args');
-var Fuller = require('../lib');
-var rxReserved = require('../lib/tools/plan').rxReserved;
-var defaultOpts = require('../lib/defaults');
-
-var planFile = path.join(process.cwd(), 'plan.js');
+let planFile = path.join(process.cwd(), "plan.js");
 if (!fs.existsSync(planFile)) {
-    console.log('Error: can\'t find a plan');
-    process.exit(1);
+	console.log("Error: can\'t find a plan");
+	process.exit(1);
 }
 
-var task, runTask, plan = require(planFile);
+let task, runTask;
+let plan = require(planFile);
 
 for(task in plan) {
-    if(rxReserved.test(task) === -1) {
-        defaultOpts.push({
-            name: task,
-            type: 'bool',
-            defaultValue: false
-        });
-    }
+	if(rxReserved.test(task) === -1) {
+		defaultOpts.push({
+			name: task,
+			type: "bool",
+			defaultValue: false
+		});
+	}
 }
 
-var options = args.Options.parse(defaultOpts);
+let options = args.Options.parse(defaultOpts);
 
 try {
-	var opt = args.parse(options);
+	options = args.parse(options);
 } catch (err) {
 	console.log(options.getHelp());
 	process.exit(1);
 }
 
 for(task in plan) {
-    if(task !== 'dev' && opt[task]) {
-        runTask = task;
-        break;
-    }
+	if(task !== "dev" && options[task]) {
+		runTask = task;
+		break;
+	}
 }
 
-var fuller = new Fuller("plan.js", runTask, opt);
+process.on("SIGINT", function() {
+	process.exit();
+});
+
+let fuller = new Fuller("plan.js", runTask, options);

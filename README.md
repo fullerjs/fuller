@@ -19,11 +19,11 @@ _Richard Buckminster "Bucky" Fuller was an American systems theorist, architect,
 ```
 
 ## Plan
-Plan is a description file which contains Fuller config (`plan.js` by default):
+Plan is a description file which contains Fuller declarative config (`plan.js` by default):
 ```js
 plan = {
     options,
-    "default": {
+    "task:default": {
         "beltname": beltTasks
     },
 
@@ -72,9 +72,9 @@ Tool is a plugin that does something with provided data. In belt tools may be ru
 Options may contain described above information or any additional settings supported by tool.
 
 ### Task
-Task is a declarative description of what should be done. Task may be function or an object or anythings - check the tool docs for details on task look.
+Task definition starts with "belt" keyword. Task is a declarative description of what should be done. Task may be function or an object or anythings - check the tool docs for details on task look.
 
-If no task was specified on Fuller run `default` one will be used. Everything except belts and options is a task. 
+If no task was specified on Fuller run `default` one will be used.
 
 ### Options ###
 You can specify default options in global section, or in tool's part of the plan. Options declared in tools extend root options, source and destination paths are concatenated.
@@ -83,4 +83,4 @@ Don't forget about verbose mode here if you need it.
 
 The fuller var in your task function is a pointer to global fuller object.
 
-Bonus, you can specify dev task. It'll be run before all others tasks when you'll use -z(--dev) key.
+Bonus, you can specify dev task. It'll be run before all others tasks when you'll use -z(--dev) option.
