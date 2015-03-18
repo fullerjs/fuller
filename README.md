@@ -1,5 +1,5 @@
 # Fuller #
-## Build everything with right tool##
+## Build everything with right tool
 
 _Richard Buckminster "Bucky" Fuller was an American systems theorist, architect, engineer, author, designer, inventor, and futurist_
 
