@@ -1,7 +1,14 @@
+#Fuller tool api
 
-#fuller
+##simple
 
-##tool api
+```js
+module.exports = function(f, mat, options, next) {
+
+}
+```
+
+
     fuller.bind(toolInstance);
 Bind tool and adds methods addTask, addTasks. Runs on tool as methods.
 
