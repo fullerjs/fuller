@@ -16,11 +16,11 @@
   "private": false,
   "dependencies": {
     "args": "~0.0.3",
-    "chalk": "~0.4.0",
-    "chokidar": "~1.0.0-rc4",
+    "chalk": "~1.1.0",
+    "chokidar": "~1.4.0",
     "ops": "~0.0.1",
-    "queueue": "~0.2.1",
-    "through2": "^0.6.3"
+    "queueue": "~1.0.1",
+    "through2": "^2.0.0"
   },
   "engines": {
     "node": "~0.12.0",
