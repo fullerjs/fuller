@@ -13,13 +13,12 @@
   ],
   "author": "Alexey Novikov (http://2dubs.com)",
   "preferGlobal": true,
-  "private": false,
   "dependencies": {
-    "args": "~0.0.3",
-    "chalk": "~1.1.0",
-    "chokidar": "~1.6.0",
-    "queueue": "~1.0.1",
-    "through2": "^2.0.0"
+    "chalk": "^2.1.0",
+    "chokidar": "^1.7.0",
+    "minimist": "^1.2.0",
+    "queueue": "^1.0.1",
+    "through2": "^2.0.3"
   },
   "repository": {
     "type": "git",

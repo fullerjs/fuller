@@ -1,14 +1,17 @@
 #!/usr/bin/env node
-
 'use strict';
-let fs = require('fs');
-let path = require('path');
-let args = require('args');
-let Fuller = require('../lib');
-let rxReserved = require('../lib/tools/plan').rxReserved;
-let defaultOpts = require('../lib/defaults');
+const fs = require('fs');
+const path = require('path');
+const minimist = require('minimist');
+const Fuller = require('../lib');
+const rxReserved = require('../lib/tools/plan').rxReserved;
+const defaultOpts = require('../lib/defaults');
 
-let planFile = path.join(process.cwd(), 'plan.js');
+const printHelp = function(opts) {
+  opts.forEach(o => console.log(`  --${o.name}${ o.shortName ? ` -${o.shortName}` : '' } ${o.help}`));
+}
+
+const planFile = path.join(process.cwd(), 'plan.js');
 if (!fs.existsSync(planFile)) {
   console.log('Error: can\'t find a plan');
   process.exit(1);
@@ -19,23 +22,31 @@ let runTask;
 let plan = require(planFile);
 
 for (task in plan) {
-  if (rxReserved.test(task) === -1) {
+  if (!rxReserved.test(task)) {
     defaultOpts.push({
       name: task,
       type: 'bool',
-      defaultValue: false
+      help: `runs ${task} task`
     });
   }
 }
 
-let options = args.Options.parse(defaultOpts);
+const args = minimist(process.argv.slice(1));
 
-try {
-  options = args.parse(options);
-} catch (err) {
-  console.log(options.getHelp());
+if (args.h || args.help) {
+  printHelp(defaultOpts);
   process.exit(1);
 }
+
+let options = {};
+defaultOpts.forEach(opt => {
+  const value = args[opt.name] !== undefined ? args[opt.name] :
+    args[opt.shortName] !== undefined ? args[opt.shortName] : opt.defaultValue;
+
+  if (value !== undefined) {
+    options[opt.name] = value;
+  }
+})
 
 for (task in plan) {
   if (task !== 'dev' && options[task]) {
@@ -48,4 +59,4 @@ process.on('SIGINT', function() {
   process.exit();
 });
 
-let fuller = new Fuller('plan.js', runTask, options);
+const fuller = new Fuller('plan.js', runTask, options);
