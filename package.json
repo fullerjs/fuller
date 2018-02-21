@@ -17,7 +17,7 @@
   "dependencies": {
     "args": "~0.0.3",
     "chalk": "~1.1.0",
-    "chokidar": "~1.6.0",
+    "chokidar": "~2.0.0",
     "queueue": "~1.0.1",
     "through2": "^2.0.0"
   },
