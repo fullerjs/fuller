@@ -14,11 +14,12 @@
   "author": "Alexey Novikov (http://2dubs.com)",
   "preferGlobal": true,
   "dependencies": {
-    "chalk": "^2.1.0",
     "chokidar": "^2.0.0",
+    "dotenv": "^6.1.0",
+    "kleur": "^2.0.2",
     "minimist": "^1.2.0",
-    "queueue": "^1.0.1",
-    "through2": "^2.0.3"
+    "queueue": "^1.2.6",
+    "through2": "^3.0.0"
   },
   "repository": {
     "type": "git",

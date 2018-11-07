@@ -1,27 +1,31 @@
-# Fuller #
+# Fuller
+
 ## Build everything with right tool
 
 _Richard Buckminster "Bucky" Fuller was an American systems theorist, architect, engineer, author, designer, inventor, and futurist_
 
-## Install ##
+## Install
+
     npm install fuller -g
 
-## Usage ##
+## Usage
+
     fuller [-w] [-z] [-v] [--src] [--dst] [--taskName]
 
 ```
 --watch, -w     Watch source directory for changes
 --src           Relative path to directory with source files
 --dst           Relative path to directory for compiled files
---dev, -z       Developer mode (usually this means no minifing and compressions, but depends from plugin)
 --verbose, -v   Verbose mode
 --taskName      Run task from plan
 ```
 
 ## Plan
-Plan is a description file which contains Fuller declarative config (`plan.js` by default):
+
+Plan is a simple js file which contains Fuller declarative config (`plan.js` by default):
+
 ```js
-plan = {
+module.exports = {
     options,
     "task:default": {
         "beltname": beltTasks
@@ -29,10 +33,7 @@ plan = {
 
     "belt:beltname": {
         options,
-        toolname: {
-            options,
-            toolname: {...}
-        }
+        tools: [ ... ]
     }
 }
 ```
@@ -47,20 +48,15 @@ Belt represents a chain of tools. Take a look at belt definition example:
         dst: "js"
     },
 
-    "concat": {
-        "common-js": {
-            "uglify": {}
-        },
-    }
-},
+    tools: [ 'src-rollup', 'buble', 'uglify', 'buster', 'dst-file' ]
+}
 ```
 
-Belt definition starts with "belt" keyword and ends with belt name - `belt:name` - in the given example belt is created with `js` name. 
-`options` is reserved property name - it may contain options that extend default plan's one - in out case default plan source and destination folders' paths are concatenated with belt's - files will be read from 'source/js/' folder and written to 'destination/js/' folder. 
-Other properties for belt object represent Fuller tools. Here we chain concat, common-js and uglify plugins.
+Belt definition starts with "belt" keyword and ends with belt name - `belt:name` - in the given example belt is created with `js` name.
+`options` is reserved property name - it may contain options that extend default plan's one - in out case default plan source and destination folders' paths are concatenated with belt's - files will be read from 'source/js/' folder and written to 'destination/js/' folder.
 
 ### Tool
-Tool is a plugin that does something with provided data. In belt tools may be run in chain and next tool will receive result of previous one's work or they can work parallel. Tool looks like this: 
+Tool is a plugin that does something with provided data. In belt tools may be run in chain and next tool will receive result of previous one's work or they can work parallel. Tool looks like this:
 
 ```js
 {
@@ -81,6 +77,6 @@ You can specify default options in global section, or in tool's part of the plan
 
 Don't forget about verbose mode here if you need it.
 
-The fuller var in your task function is a pointer to global fuller object.
+The fuller variable in your task function is a pointer to global fuller object.
 
-Bonus, you can specify dev task. It'll be run before all others tasks when you'll use -z(--dev) option.
+© velocityzen

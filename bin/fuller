@@ -1,62 +1,39 @@
 #!/usr/bin/env node
 'use strict';
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const minimist = require('minimist');
 const Fuller = require('../lib');
-const rxReserved = require('../lib/tools/plan').rxReserved;
 const defaultOpts = require('../lib/defaults');
 
 const printHelp = function(opts) {
   opts.forEach(o => console.log(`  --${o.name}${ o.shortName ? ` -${o.shortName}` : '' } ${o.help}`));
 }
 
-const planFile = path.join(process.cwd(), 'plan.js');
-if (!fs.existsSync(planFile)) {
-  console.log('Error: can\'t find a plan');
-  process.exit(1);
-}
-
-let task;
-let runTask;
-let plan = require(planFile);
-
-for (task in plan) {
-  if (!rxReserved.test(task)) {
-    defaultOpts.push({
-      name: task,
-      type: 'bool',
-      help: `runs ${task} task`
-    });
-  }
-}
-
 const args = minimist(process.argv.slice(1));
-
 if (args.h || args.help) {
   printHelp(defaultOpts);
   process.exit(1);
 }
 
-let options = {};
-defaultOpts.forEach(opt => {
+const options = defaultOpts.reduce((opts, opt) => {
   const value = args[opt.name] !== undefined ? args[opt.name] :
     args[opt.shortName] !== undefined ? args[opt.shortName] : opt.defaultValue;
 
   if (value !== undefined) {
-    options[opt.name] = value;
+    opts[opt.name] = value;
   }
-})
 
-for (task in plan) {
-  if (task !== 'dev' && options[task]) {
-    runTask = task;
-    break;
-  }
+  return opts;
+}, {});
+
+const planFile = path.join(process.cwd(), options.plan);
+if (!fs.existsSync(planFile)) {
+  console.log('Error: can\'t find a plan');
+  process.exit(1);
 }
 
-process.on('SIGINT', function() {
-  process.exit();
-});
+process.on('SIGINT', () => process.exit());
 
-const fuller = new Fuller('plan.js', runTask, options);
+const fuller = new Fuller(options);
