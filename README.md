@@ -56,19 +56,12 @@ Belt definition starts with "belt" keyword and ends with belt name - `belt:name`
 `options` is reserved property name - it may contain options that extend default plan's one - in out case default plan source and destination folders' paths are concatenated with belt's - files will be read from 'source/js/' folder and written to 'destination/js/' folder.
 
 ### Tool
-Tool is a plugin that does something with provided data. In belt tools may be run in chain and next tool will receive result of previous one's work or they can work parallel. Tool looks like this:
-
-```js
-{
-    options,    // optional
-    nextTool
-}
-```
+Tool is a plugin that does something with provided data. In belt tools may be run in chain and next tool will receive result of previous one's work or they can work parallel.
 
 Options may contain described above information or any additional settings supported by tool.
 
 ### Task
-Task definition starts with "belt" keyword. Task is a declarative description of what should be done. Task may be function or an object or anythings - check the tool docs for details on task look.
+Task definition starts with `task` keyword. Task is a declarative description of what should be done. Task may be function or an object or anythings - check the tool docs for details on task look.
 
 If no task was specified on Fuller run `default` one will be used.
 
